@@ -11,7 +11,7 @@
 
 ***
 
-### Task List: add this to the first comment of your Pull Request
+### Task List: add this to the first comment of your Pull Request: [x]
 
 ```markdown
 # LS-8 Emulator Multiply
