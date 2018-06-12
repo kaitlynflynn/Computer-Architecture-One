@@ -7,6 +7,7 @@
 const LDI = 0b10011001;
 const PRN = 0b01000011;
 const HLT = 0b00000001;
+const MUL = 0b10101010;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -62,6 +63,8 @@ class CPU {
         switch (op) {
             case 'MUL':
                 // !!! IMPLEMENT ME
+                this.reg[regA] *= this.reg[regB];
+                break;
         }
     }
 
@@ -84,8 +87,8 @@ class CPU {
         // needs them.
 
         // !!! IMPLEMENT ME
-        const operandA = this.ram.read(this.PC + 1);
-        const operandB = this.ram.read(this.PC + 2);
+        const operandA = this.ram.read(this.PC + 1); //poo
+        const operandB = this.ram.read(this.PC + 2); //dung
 
         // Execute the instruction. Perform the actions for the instruction as
         // outlined in the LS-8 spec.
@@ -96,17 +99,21 @@ class CPU {
                 // set the value in a register
                 this.reg[operandA] = operandB;
                 // console.log(this.reg[operandA]);
-                this.PC += 3; // Next instruction
+                // this.PC += 3; // Next instruction
                 break;
 
             case PRN:
                 console.log(this.reg[operandA]);
-                this.PC += 2;
+                // this.PC += 2;
                 break;
 
             case HLT:
                 this.stopClock();
-                this.PC += 1;
+                // this.PC += 1;
+                break;
+
+            case MUL:
+                this.alu('MUL', operandA, operandB);
                 break;
 
             default:
@@ -121,6 +128,8 @@ class CPU {
         // for any particular instruction.
         
         // !!! IMPLEMENT ME
+        const instLen = (IR >> 6) + 1;
+        this.PC += instLen;
     }
 }
 
