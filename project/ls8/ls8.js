@@ -1,5 +1,6 @@
 const RAM = require('./ram');
 const CPU = require('./cpu');
+const fs = require('fs');
 
 /**
  * Load an LS8 program into memory
@@ -7,6 +8,13 @@ const CPU = require('./cpu');
  * TODO: load this from a file on disk instead of having it hardcoded
  */
 function loadMemory() {
+    const program = [];
+    const filename = process.argv[2];
+    const file = fs.readFileSync(filename, 'utf8');
+    file.split(/[\r\n]+/g).forEach(x => {
+        const op = x.split(' ')[0];
+        if(op.length === 8) program.push(op);
+    });
 
     // Hardcoded program to print the number 8 on the console
 
@@ -23,20 +31,20 @@ function loadMemory() {
 
     // Hardcoded program to print the number 72 on the console
 
-    const program = [ // mult.ls8
-        "10011001", // LDI R0,8  Load R0 with value 8
-        "00000000",
-        "00001000",
-        "10011001", // LDI R1,9  Load R1 with value 9
-        "00000001",
-        "00001001",
-        "10101010", // MUL R0,R1 Multiply R0*R1, storing result in R0
-        "00000000",
-        "00000001",
-        "01000011", // PRN R0    Print value in R0
-        "00000000",
-        "00000001" // HLT       Halt
-    ];
+    // const program = [ // mult.ls8
+        // "10011001", // LDI R0,8  Load R0 with value 8
+        // "00000000",
+        // "00001000",
+        // "10011001", // LDI R1,9  Load R1 with value 9
+        // "00000001",
+        // "00001001",
+        // "10101010", // MUL R0,R1 Multiply R0*R1, storing result in R0
+        // "00000000",
+        // "00000001",
+        // "01000011", // PRN R0    Print value in R0
+        // "00000000",
+        // "00000001" // HLT       Halt
+    // ];
 
 // ----------------------------------------------------------------------------    
 
@@ -54,7 +62,6 @@ let ram = new RAM(256);
 let cpu = new CPU(ram);
 
 // TODO: get name of ls8 file to load from command line
-
 loadMemory(cpu);
 
 cpu.startClock();
