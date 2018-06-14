@@ -16,6 +16,30 @@ function loadMemory() {
         if(op.length === 8) program.push(op);
     });
 
+    //instructor solve for unhardcode
+    // const content = fs.readFileSync(filename, 'utf-8');
+    // console.log(content);
+
+    // const lines = content.trim().split(/[\r\n]+/g);
+    
+    // program = [];
+    
+    // for (let line of lines) {
+    //     console.log(line);
+    //     const val = parseInt(line, 2);
+
+    //     if (isNaN(val)) {
+    //         continue;
+    //     }
+
+    //     program.push(val);
+    // }
+    //NOTE must remove the parseInt from below as well to be this: 
+//     for (let i = 0; i < program.length; i++) {
+//         cpu.poke(i, program[i]);
+//     }
+// }
+
     // Hardcoded program to print the number 8 on the console
 
     // const program = [ // print8.ls8
@@ -47,7 +71,7 @@ function loadMemory() {
     // ];
 
 // ----------------------------------------------------------------------------    
-
+    //Update this if going with instructor unhardcode above
     // Load the program into the CPU's memory a byte at a time
     for (let i = 0; i < program.length; i++) {
         cpu.poke(i, parseInt(program[i], 2));

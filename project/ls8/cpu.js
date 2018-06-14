@@ -8,6 +8,10 @@ const LDI = 0b10011001;
 const PRN = 0b01000011;
 const HLT = 0b00000001;
 const MUL = 0b10101010;
+const PUSH = 0b01001101;
+const POP = 0b01001100;
+
+const SP = 7;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -22,6 +26,8 @@ class CPU {
 
         this.reg = new Array(8).fill(0); // General-purpose registers R0-R7
         
+        this.reg[SP] = 0xF4; // Initialized stack pointer
+
         // Special-purpose registers
         this.PC = 0; // Program Counter
     }
@@ -64,6 +70,7 @@ class CPU {
             case 'MUL':
                 // !!! IMPLEMENT ME
                 this.reg[regA] *= this.reg[regB];
+                // this.reg[regA] = (this.reg[regB] * this.reg[regA]) & 0xff;
                 break;
         }
     }
@@ -113,7 +120,17 @@ class CPU {
                 break;
 
             case MUL:
-                this.alu('MUL', operandA, operandB);
+                this.alu("MUL", operandA, operandB);
+                break;
+
+            case PUSH:
+                this.reg[SP]--;
+                this.ram.write(this.reg[SP], this.reg[operandA]);
+                break;
+
+            case POP:    
+                this.reg[operandA] = this.ram.read(this.reg[SP]);
+                this.reg[SP]++;
                 break;
 
             default:
